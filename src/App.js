@@ -1,43 +1,32 @@
 import React from "react";
-
-class Counter extends React.Component {
-  // State in class based React
+class App extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = { count: 5 };
-
-    // We must bind 'this' to de event handlers we create !!
-    this.handleDecrement = this.handleDecrement.bind(this);
-    this.handleIncrement = this.handleIncrement.bind(this);
+    this.state = { location: "Lisabon" };
+    this.fetchWeather = this.fetchWeather.bind(this);
   }
 
-  handleDecrement() {
-    this.setState(curState => {
-      return { count: curState.count - 1 };
-    });
-  }
-
-  handleIncrement() {
-    this.setState(curState => {
-      return { count: curState.count + 1 };
-    });
+  fetchWeather() {
+    console.log("Loading data...");
+    console.log(this);
   }
 
   render() {
-    const date = new Date("June 27 2027");
-    date.setDate(date.getDate() + this.state.count);
-
     return (
-      <div>
-        <button onClick={this.handleDecrement}>-</button>
-        <span>
-          {date.toDateString()} [{this.state.count}]
-        </span>
-        <button onClick={this.handleIncrement}>+</button>
+      <div className="app">
+        <h1>Classy Weather</h1>
+        <div>
+          <input
+            type="text"
+            placeholder="Search from location..."
+            value={this.state.location}
+            onChange={e => this.setState({ location: e.target.value })}
+          />
+        </div>
+        <button onClick={this.fetchWeather}>Get weather</button>
       </div>
     );
   }
 }
 
-export default Counter;
+export default App;
