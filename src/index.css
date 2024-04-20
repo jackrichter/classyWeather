@@ -90,3 +90,14 @@ input:focus {
   font-size: 2.4rem;
   font-weight: 700;
 }
+
+.button {
+  background-color: #54adf7;
+  color: #343a40;
+  padding: 0.8rem 1.2rem;
+  border: none;
+  border-radius: 7px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
