@@ -1,4 +1,5 @@
 import React from "react";
+import Weather from "./Weather";
 
 function getWeatherIcon(wmoCode) {
   const icons = new Map([
@@ -84,6 +85,9 @@ class App extends React.Component {
           Get weather
         </button>
         {this.state.isLoading && <p>Loading...</p>}
+        {this.state.weather.weathercode && (
+          <Weather weather={this.state.weather} location={this.state.displayLocation} />
+        )}
       </div>
     );
   }
