@@ -1,6 +1,6 @@
 import React from "react";
 import Weather from "./Weather";
-// import Input from "./Input";
+import Input from "./Input";
 
 export function getWeatherIcon(wmoCode) {
   const icons = new Map([
@@ -31,7 +31,7 @@ function convertToFlag(countryCode) {
 class App extends React.Component {
   /* Using Class fields to set State */
   state = {
-    location: "Lisbon",
+    location: "",
     isLoading: false,
     displayLocation: "",
     weather: {}
@@ -39,6 +39,8 @@ class App extends React.Component {
 
   // async fetchWeather() {
   fetchWeather = async () => {
+    if (this.state.location.length < 2) return this.setState({ weather: {} });
+
     try {
       this.setState({ isLoading: true });
 
@@ -60,7 +62,7 @@ class App extends React.Component {
       const weatherData = await weatherRes.json();
       this.setState({ weather: weatherData.daily });
     } catch (err) {
-      console.err(err);
+      console.error(err);
     } finally {
       this.setState({ isLoading: false });
     }
@@ -68,22 +70,26 @@ class App extends React.Component {
 
   setLocation = e => this.setState({ location: e.target.value });
 
+  // Like useEffect []
+  componentDidMount() {
+    // this.fetchWeather();
+    this.setState({ location: localStorage.getItem("location") || "" });
+  }
+
+  // Like useEffect[location], except only on re-render and not on mount
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.location !== prevState.location) {
+      this.fetchWeather();
+    }
+
+    localStorage.setItem("location", this.state.location);
+  }
+
   render() {
     return (
       <div className="app">
         <h1>Classy Weather</h1>
-        <div>
-          <input
-            type="text"
-            placeholder="Search from location..."
-            value={this.state.location}
-            onChange={e => this.setState({ location: e.target.value })}
-          />
-        </div>
-        {/* <Input location={this.state.location} onChangeLocation={this.setLocation} /> */}
-        <button className="button" onClick={this.fetchWeather}>
-          Get weather
-        </button>
+        <Input location={this.state.location} onChangeLocation={this.setLocation} />
         {this.state.isLoading && <p>Loading...</p>}
         {this.state.weather.weathercode && (
           <Weather weather={this.state.weather} location={this.state.displayLocation} />
