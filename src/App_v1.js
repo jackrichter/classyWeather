@@ -1,5 +1,6 @@
 import React from "react";
 import Weather from "./Weather";
+// import Input from "./Input";
 
 export function getWeatherIcon(wmoCode) {
   const icons = new Map([
@@ -28,7 +29,7 @@ function convertToFlag(countryCode) {
 }
 
 class App extends React.Component {
-  /* Using Class fields */
+  /* Using Class fields to set State */
   state = {
     location: "Lisbon",
     isLoading: false,
@@ -46,7 +47,6 @@ class App extends React.Component {
         `https://geocoding-api.open-meteo.com/v1/search?name=${this.state.location}`
       );
       const geoData = await geoRes.json();
-      console.log(geoData);
 
       if (!geoData.results) throw new Error("Location not found");
 
@@ -66,6 +66,8 @@ class App extends React.Component {
     }
   };
 
+  setLocation = e => this.setState({ location: e.target.value });
+
   render() {
     return (
       <div className="app">
@@ -78,6 +80,7 @@ class App extends React.Component {
             onChange={e => this.setState({ location: e.target.value })}
           />
         </div>
+        {/* <Input location={this.state.location} onChangeLocation={this.setLocation} /> */}
         <button className="button" onClick={this.fetchWeather}>
           Get weather
         </button>

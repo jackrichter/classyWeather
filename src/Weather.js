@@ -9,6 +9,7 @@ export default class Weather extends React.Component {
       time: dates,
       weathercode: codes
     } = this.props.weather;
+
     return (
       <div>
         <h2>Weather {this.props.location}</h2>
